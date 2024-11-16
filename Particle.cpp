@@ -229,7 +229,7 @@ void Particle::MoveParticles(Particle& p, Particle& other, float decay_in) const
     float dx = p.m_pos.x - GetMouseX();
     float dy = p.m_pos.y - GetMouseY();
     float distance = (dx * dx + dy * dy) *
-                    _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(dx * dx + dy * dy)));
+                  sqrtf(dx * dx + dy * dy);
     float radius = p.p_radius * 11.0f;
 
     if (distance < radius) {
@@ -247,7 +247,7 @@ void Particle::MoveParticles(Particle& p, Particle& other, float decay_in) const
                 float other_dx = p.m_pos.x - other.m_pos.x;
                 float other_dy = p.m_pos.y - other.m_pos.y;
                 float other_distance = (other_dx * other_dx + other_dy * other_dy) 
-                                     * _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(other_dx * other_dx + other_dy * other_dy)));
+                                     * 1 / sqrtf(other_dx * other_dx + other_dy * other_dy);
                 float min_distance = p.p_radius + other.p_radius;
 
                 if (other_distance < min_distance && other_distance > 0.0f) {
